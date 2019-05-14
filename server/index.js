@@ -1,5 +1,6 @@
 const koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const path = require('path');
 
 // 引入router文件
 const webRouter = require('./routers/web');
@@ -59,6 +60,17 @@ app.use(async (ctx, next) => {
 // 设置允许跨域 结束
 
 
+// 模板渲染
+/*const render = require('koa-art-template');
+render(app,{
+  // 开发的配置 debug: true 
+	debug: process.env.NODE_ENV !== 'production',
+	root: path.join(__dirname, '../web/dist'),
+	extname: '.html'
+})
+*/
+
+
 /*** 中间件的使用 ***/
 //重写url
 let rewriteUrl = require('./middleware/rewriteUrl');
@@ -66,6 +78,9 @@ let error = require('./middleware/error');
 // 处理异常
 app.use(error());
 app.use(rewriteUrl());
+
+// 处理静态资源
+//app.use(require('koa-static')(path.resolve('../web/dist/')));
 
 
 

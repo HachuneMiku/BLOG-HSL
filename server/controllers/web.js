@@ -2,24 +2,50 @@ const webModel = require('../models/web');
 const bcrypt = require('bcrypt');  // 密码加密包
 const jwt = require('jsonwebtoken');  //生成token
 
+const markdowner = require('markdown-it');  //解析markdown
+const path = require('path');
+const fs = require('fs');
+
 const token_secret = 'hsl_token_secretkey';  //token秘钥
+
+
+let md = new markdowner({
+  html: true,  // 在源代码中启用HTML标记
+  xhtmlOut: true,  //  使用'/'关闭单个标签（<br />）
+  linkify: false,  // 自动将URL像文本一样转换为链接
+  typographer: false,
+
+})
 
 module.exports = {
 
   viewIndex: async(ctx, next) => {
 
-    // 获得前台传递的token
-    let tokenRaw = String(ctx.header.authorization).split(' ').pop();
+    // 使用将markdown转html
+    let target = path.join(__dirname, '../test.md');
+    fs.readFile(target, (err,content)=>{
+      if(err){
+        ctx.body = {code:'err',msg:'读取文件失败'};
+        return;
+      }
+      
+      let html = md.render(content.toString());
+      console.log(html);
+      ctx.body = html;
+    })
 
+
+    //ctx.render('index');
+    // 获得前台传递的token
+    /*let tokenRaw = String(ctx.header.authorization).split(' ').pop();
     jwt.verify(tokenRaw, token_secret, function(err, decoded){
       if(err || !decoded){
         ctx.body = {
           code:'err', msg:'token出错'
         };
       }
-      
       console.log('1111', decoded);
-    });
+    });*/
     
 
 
@@ -67,7 +93,6 @@ module.exports = {
 		ctx.body = { code:'err',msg:'用户名或密码不正确' };
 
 
-
   },
   // 注册接口
   reg: async(ctx, next) => {
@@ -109,16 +134,6 @@ module.exports = {
   editpwd: async(ctx, next) => {
     
   },
-
-
-
-
-
-
-
-
-
-
 
 
 }
