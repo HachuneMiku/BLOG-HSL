@@ -1,5 +1,6 @@
 const koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const koabody = require('koa-body');
 const path = require('path');
 
 // 引入router文件
@@ -81,10 +82,22 @@ app.use(rewriteUrl());
 
 // 处理静态资源
 //app.use(require('koa-static')(path.resolve('../web/dist/')));
+app.use(require('koa-static')(path.resolve('./uploadFiles/')));
 
 
+//app.use(bodyParser());
+app.use(koabody({
+  multipart: true, // 解析多部分主体
+  formidable: {
+    maxFileSize: 2*1024*1024,   // 设置上传文件大小最大限制，默认2M
+    uploadDir: path.resolve('./uploadFiles/article'),
+    keepExtensions: true, // 写入的文件uploadDir将包含原始文件的扩展名
+    hash: 'sha1',
+    multiples: false  // 多个文件上传或否
+  }
 
-app.use(bodyParser());
+}));
+
 
 app.use(webRouter.routes());
 app.use(adminRouter.routes());

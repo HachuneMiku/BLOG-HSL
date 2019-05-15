@@ -11,8 +11,10 @@ adminRouter.get('/admin/index', adminController.viewIndex)
 .post('/admin/reg', adminController.reg)
 // 修改密码
 .put('/admin/editpwd', adminController.editpwd)
-// 添加文章
-.post('/admin/addarticle', adminController.addarticle)
+// 添加或编辑文章
+.post('/admin/article/curd', adminController.editarticle)
+// 添加或编辑文章分类
+.post('/admin/articletype/curd', adminController.editarticletype)
 
 
 module.exports = adminRouter;

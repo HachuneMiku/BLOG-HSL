@@ -22,7 +22,7 @@ module.exports = {
   viewIndex: async(ctx, next) => {
 
     // 使用将markdown转html
-    let target = path.join(__dirname, '../test.md');
+    /*let target = path.join(__dirname, '../test.md');
     fs.readFile(target, (err,content)=>{
       if(err){
         ctx.body = {code:'err',msg:'读取文件失败'};
@@ -32,7 +32,7 @@ module.exports = {
       let html = md.render(content.toString());
       console.log(html);
       ctx.body = html;
-    })
+    })*/
 
 
     //ctx.render('index');
