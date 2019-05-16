@@ -13,8 +13,13 @@ adminRouter.get('/admin/index', adminController.viewIndex)
 .put('/admin/editpwd', adminController.editpwd)
 // 添加或编辑文章
 .post('/admin/article/curd', adminController.editarticle)
+// 文章分页
+.post('/admin/article/list', adminController.listarticle)
+
 // 添加或编辑文章分类
 .post('/admin/articletype/curd', adminController.editarticletype)
+// 文章分类分页
+.post('/admin/articletype/list', adminController.listarticletype)
 
 
 module.exports = adminRouter;

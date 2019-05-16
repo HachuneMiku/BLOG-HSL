@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');  //生成token
 const markdowner = require('markdown-it');  //解析markdown
 const path = require('path');
 const fs = require('fs');
+const moment = require('moment');
+moment.locale('zh-cn'); 
 
 const token_secret = 'hsl_token_secretkey';  //token秘钥
 
@@ -162,6 +164,11 @@ module.exports = {
 
   },
 
+  // 文章分页
+  listarticle: async (ctx, next) => {
+
+  },
+
   // 添加或修改文章分类
   editarticletype: async (ctx, next) => {
     let { type, category, id } = ctx.request.body;
@@ -204,7 +211,23 @@ module.exports = {
 
 
 
-  }
+  },
 
+  // 文章分类分页
+  listarticletype: async (ctx, next) => {
+    let {page, number} = ctx.request.body;
+    let res = await adminModel.listCategory(page, number);
+
+    res.items.forEach((e,i)=>{
+      if(e.udate){
+        e.udate = moment(Number(e.udate)).format('YYYY-MM-DD HH:mm:ss');
+      }else{
+        e.udate = '无';
+      }
+      e.cdate = moment(Number(e.cdate)).format('YYYY-MM-DD HH:mm:ss');
+    })
+
+    ctx.body = res;
+  }
 
 }

@@ -16,6 +16,7 @@
 散列密码的库：bcrypt
 连接数据库：mysql
 
+时间处理：moment
 生成验证码：captchapng2
 处理文件上传的：请求体数据  koa-formidable
 
