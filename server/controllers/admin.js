@@ -1,6 +1,7 @@
 const adminModel = require('../models/admin');
 const bcrypt = require('bcrypt');  // 密码加密包
 const jwt = require('jsonwebtoken');  //生成token
+const request = require('request');
 
 const markdowner = require('markdown-it');  //解析markdown
 const path = require('path');
@@ -29,12 +30,36 @@ function readFile(target){
   });
 }
 
+function reqWallpaper(){
+  return new Promise((resolve, reject)=>{
+    request('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1', (error, response, body) => {
+      if(response.statusCode == 200){
+        resolve(body);
+      }else{
+        reject(err);
+      }
+    });
+  }); 
+}
+
 module.exports = {
+  // 获取bing壁纸
+  wallpaper: async(ctx, next) => {
+    try{
+      let res = await reqWallpaper();
+      let copyright = JSON.parse(res).images[0].copyright;
+      let imgUrl = 'https://cn.bing.com' + JSON.parse(res).images[0].url;
+      ctx.body = {'copyright':copyright,'imgUrl':imgUrl}
+    }catch(e){
+      ctx.throw('err')
+    }
+  },
+
   viewIndex: async (ctx, next) => {
 
   },
 
-
+  
 
 
   // 登录
@@ -103,26 +128,22 @@ module.exports = {
 
   // 添加或修改文章
   editarticle: async (ctx, next) => {
-    let {type, title, classify } = ctx.request.body;
+    let {type, title, classify, contenturl, id} = ctx.request.body;
 
     switch (type) {
       case "add":
-        let { content } = ctx.request.files;
-        
-        // 文章路径
-        let contenturl = '/uploadFiles/article/' + path.parse(content.path).base;
-        
-        let cdate = Date.now();
-
         // 以后再加token
         let aid = 1, editor = 'HSL';
 
+        let tempUrl = '/uploadFiles/temp/' + path.parse(contenturl).base;
+        
         try{
           // markdown转HTML
-          let file = await readFile(content.path);
+          let file = await readFile(contenturl);
           let htmlData = md.render(file.toString());
 
-          let result = await adminModel.addArticle(title, contenturl, htmlData, classify, cdate, aid, editor);
+          let cdate = Date.now();
+          let result = await adminModel.addArticle(title, tempUrl, htmlData, classify, cdate, aid, editor);
           
           if(result.affectedRows === 1){
             ctx.body = { code: 'yes', msg: '添加文章成功' };
@@ -143,7 +164,17 @@ module.exports = {
         
         break;
       case "del":
-        
+          try{
+            let result = await adminModel.delArticle(id);
+            console.log(result);
+            if(result.affectedRows === 1){
+              ctx.body = { code: 'yes', msg: '删除文章成功' };
+              return;
+            }
+            ctx.body = { code: 'err', msg:result.message };
+          }catch(e){
+            ctx.throw('err')   
+          }
         break;
     }
 
@@ -159,14 +190,29 @@ module.exports = {
       console.log('1111', decoded);
     });*/
 
+  },
 
-
-
+  // 文章上传接口
+  uploadarticle: async (ctx, next) => {
+    let { content } = ctx.request.files;
+    
+    ctx.body = {code: 'yes', tempUrl: content.path}
   },
 
   // 文章分页
   listarticle: async (ctx, next) => {
+    let {page, number} = ctx.request.body;
+    let res = await adminModel.listArticle(page, number);
+    res.items.forEach((e,i)=>{
+      if(e.udate){
+        e.udate = moment(Number(e.udate)).format('YYYY-MM-DD HH:mm:ss');
+      }else{
+        e.udate = '无';
+      }
+      e.cdate = moment(Number(e.cdate)).format('YYYY-MM-DD HH:mm:ss');
+    })
 
+    ctx.body = res;
   },
 
   // 添加或修改文章分类
@@ -202,6 +248,28 @@ module.exports = {
 
         break;
       case "edit":
+        console.log(type, category, id);
+        try{
+          //判断是否存在该分类
+          let types = await adminModel.findTypeByTypename(category);
+          //判断是否可以注册
+          if(types.length !== 0){
+            ctx.body = { code:'err',msg:'该分类已存在' };
+            return;
+          }
+
+          let udate = Date.now();
+          let result = await adminModel.editCategory(id, category, udate);
+          console.log(result);
+          if(result.affectedRows === 1){
+            ctx.body = { code: 'yes', msg: '修改成功' };
+            return;
+          }
+          ctx.body = { code: 'err', msg:result.message };
+        }catch(e){
+          ctx.throw('err');
+        }
+
         
         break;
       case "del":
@@ -227,6 +295,11 @@ module.exports = {
       e.cdate = moment(Number(e.cdate)).format('YYYY-MM-DD HH:mm:ss');
     })
 
+    ctx.body = res;
+  },
+  // 返回所有文章分类
+  allistarticletype: async (ctx,next) => {
+    let res = await adminModel.allistCategory();
     ctx.body = res;
   }
 

@@ -5,8 +5,17 @@ let adminRouter = new Router();
 const adminController = require('../controllers/admin.js');
 
 adminRouter.get('/admin/index', adminController.viewIndex)
+
+//个人简历
+.get('/admin/resume', (ctx, next) => {
+  ctx.render('index');
+})
+
 // 后台登录
 .post('/admin/login', adminController.login)
+.get('/admin/wallpaper',adminController.wallpaper)
+
+
 // 后台添加用户
 .post('/admin/reg', adminController.reg)
 // 修改密码
@@ -15,11 +24,13 @@ adminRouter.get('/admin/index', adminController.viewIndex)
 .post('/admin/article/curd', adminController.editarticle)
 // 文章分页
 .post('/admin/article/list', adminController.listarticle)
+// 上传接口
+.post('/admin/article/upload', adminController.uploadarticle)
 
 // 添加或编辑文章分类
 .post('/admin/articletype/curd', adminController.editarticletype)
 // 文章分类分页
 .post('/admin/articletype/list', adminController.listarticletype)
-
+.post('/admin/articletype/allist', adminController.allistarticletype)
 
 module.exports = adminRouter;

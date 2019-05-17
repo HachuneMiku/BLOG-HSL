@@ -47,7 +47,6 @@
     methods:{
       handleSubmit () {
         let that = this;
-        console.log(that);
         this.$refs.formCategory.validate(async (valid) => {
           if (valid) {
             that.loadShow = true;  // 显示加载框

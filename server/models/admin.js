@@ -32,18 +32,37 @@ module.exports = {
     result['items'] = items;
     return result;
   },
+  // 返回所有文章分类
+  allistCategory: async() => {
+    return await db.q('SELECT id,category FROM hsl_admin_articletype',[]);
+  },
+
+  editCategory: async(id, category, udate) => {
+    return await db.q('UPDATE hsl_admin_articletype SET category=?, udate=? WHERE id=?', [category, udate, id]);
+  },
 
 
   /** 文章的操作 **/
   addArticle: async(...article) => {
     return await db.q('insert into hsl_admin_article (title, contenturl, content, classify, cdate, aid, editor) values (?,?,?,?,?,?,?)', article);
   },
+  delArticle: async(id) => {
+    return await db.q('DELETE FROM hsl_admin_article WHERE id=?;', [id]);
+  },
   /** 文章的分页查询 **/
-  listArticle: async() => {
-
+  listArticle: async(page, number) => {
+    let pageNow = (page-1)*number;
+    let pageSize = Number(number);
+    let result = {};
+    let total = await db.q('SELECT COUNT(*) FROM hsl_admin_article',[]);
+    let items = await db.q('select * from hsl_admin_article limit ?, ?;', [pageNow,pageSize]);
+    total = total[0]['COUNT(*)'];
+    result['total'] = total;
+    result['items'] = items;
+    return result;
   },
 
-
+  
 
 
 

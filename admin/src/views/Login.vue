@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" v-bind:style="{backgroundImage:'url(' + bingImg.imgUrl + ')'}">
     <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
@@ -7,19 +7,34 @@
         </div>
       </Card>
     </div>
+    <!-- 壁纸来源说明 -->
+    <div class="copyright">
+      {{bingImg.copyright}}
+    </div>  
   </div>
 </template>
 <script>
   import LoginForm from '../components/login-form'
 
   export default {
+    data(){
+      return{
+        bingImg:{
+        }
+      }
+    },
     components:{
       LoginForm
     },
-    method: {
-      handleSubmit(){
-
+    methods: {
+      handleSubmit({ userName, password }){
+        console.log(userName, password)
       }
+    },
+    async created(){
+      let res = await this.$hslApi.get('/wallpaper', {})
+      console.log(res.data);
+      this.bingImg = res.data;
     }
   }
 </script>
@@ -53,5 +68,12 @@
     text-align: center;
     color: #c3c3c3;
   }
-
+  .copyright{
+    background-color: #fff;
+    font-size: 13px;
+    color: #000;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 0;
+  }
 </style>

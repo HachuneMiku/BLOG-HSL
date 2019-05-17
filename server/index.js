@@ -62,14 +62,14 @@ app.use(async (ctx, next) => {
 
 
 // 模板渲染
-/*const render = require('koa-art-template');
+const render = require('koa-art-template');
 render(app,{
   // 开发的配置 debug: true 
 	debug: process.env.NODE_ENV !== 'production',
-	root: path.join(__dirname, '../web/dist'),
+	root: path.join(__dirname, './static/resume'),
 	extname: '.html'
 })
-*/
+
 
 
 /*** 中间件的使用 ***/
@@ -83,14 +83,14 @@ app.use(rewriteUrl());
 // 处理静态资源
 //app.use(require('koa-static')(path.resolve('../web/dist/')));
 app.use(require('koa-static')(path.resolve('./uploadFiles/')));
-
+app.use(require('koa-static')(path.resolve('./static/')));
 
 //app.use(bodyParser());
 app.use(koabody({
   multipart: true, // 解析多部分主体
   formidable: {
     maxFileSize: 2*1024*1024,   // 设置上传文件大小最大限制，默认2M
-    uploadDir: path.resolve('./uploadFiles/article'),
+    uploadDir: path.resolve('./uploadFiles/temp'),
     keepExtensions: true, // 写入的文件uploadDir将包含原始文件的扩展名
     hash: 'sha1',
     multiples: false  // 多个文件上传或否

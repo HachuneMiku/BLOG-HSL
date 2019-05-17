@@ -14,9 +14,9 @@
     </Row>
 
     <Modal v-model="editmodal" title="编辑文章分类"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Input v-model="category" placeholder="请输入文章分类名" clearable />
+      @on-ok="editok"
+      @on-cancel="editcancel">
+      <Input v-model="category.category" placeholder="请输入文章分类名" clearable />
     </Modal>
   </div>
 </template>
@@ -27,7 +27,10 @@
         total:0,
         listloading: false,  // 表格加载框
         editmodal: false,   // 编辑框显示与否
-        category: '',
+        category:{
+          
+        },
+
         // 表格的列名
         columns: [
           {
@@ -90,9 +93,7 @@
     methods: {
       // 编辑一行数据
       edit (index) {
-        console.log(this.categoryData[index]);
-
-        this.category = this.categoryData[index].category;
+        this.category = this.categoryData[index];
         this.editmodal = true;
       },
       // 删除一行数据
@@ -101,10 +102,31 @@
 
       },
       // 编辑模态框的确认和取消按钮
-      ok () {
-        this.$Message.info('Clicked ok');
+      async editok () {
+        console.log(this.category);
+        let that = this;
+        let res = await this.$hslApi.post('articletype/curd', {
+          'type': 'edit',
+          'id': that.category.id,
+          'category': that.category.category
+        })
+        if(res.data.code == 'yes'){
+          this.$Message.success({
+            content:res.data.msg,
+            onClose(){
+              that.fetch(1,2);
+            }
+          });
+        }else{
+          this.$Message.error({
+            content: res.data.msg,
+            onClose(){
+              that.fetch(1,2);
+            }
+          });
+        }
       },
-      cancel () {
+      editcancel () {
         this.$Message.info('Clicked cancel');
       },
       // 获取表格数据
