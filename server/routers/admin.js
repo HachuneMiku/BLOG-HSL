@@ -4,12 +4,16 @@ let adminRouter = new Router();
 
 const adminController = require('../controllers/admin.js');
 
-adminRouter.get('/admin/index', adminController.viewIndex)
-
+/********* 显示页面 *********/
+adminRouter.get('/admin/index', async (ctx, next) => {
+  ctx.render('admin/index');
+})
 //个人简历
 .get('/admin/resume', (ctx, next) => {
   ctx.render('resume/index');
 })
+/********* ↑↑↑↑↑↑↑ *********/
+
 
 // 后台登录
 .post('/admin/login', adminController.login)

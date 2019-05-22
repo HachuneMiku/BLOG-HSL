@@ -33,45 +33,6 @@ function reqWallpaper(){
 
 module.exports = {
 
-  viewIndex: async(ctx, next) => {
-    ctx.render('web-dist/index');
-    
-
-    // 使用将markdown转html
-    /*let target = path.join(__dirname, '../test.md');
-    fs.readFile(target, (err,content)=>{
-      if(err){
-        ctx.body = {code:'err',msg:'读取文件失败'};
-        return;
-      }
-      
-      let html = md.render(content.toString());
-      console.log(html);
-      ctx.body = html;
-    })*/
-
-
-    //ctx.render('index');
-    // 获得前台传递的token
-    /*let tokenRaw = String(ctx.header.authorization).split(' ').pop();
-    jwt.verify(tokenRaw, token_secret, function(err, decoded){
-      if(err || !decoded){
-        ctx.body = {
-          code:'err', msg:'token出错'
-        };
-      }
-      console.log('1111', decoded);
-    });*/
-  },
-  viewNote: async(ctx, next) => {
-    ctx.render('web-dist/index');
-
-  },
-  viewDetail: async(ctx, next) => {
-    ctx.render('web-dist/index');
-
-  },
-
 
   viewLogin: async(ctx, next) => {
 

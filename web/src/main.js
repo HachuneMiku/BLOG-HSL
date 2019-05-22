@@ -1,13 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
 import router from './router/index'
 import store from './store/index'
-
 
 import './assets/css/main.css'
 import './assets/font-awesome/css/font-awesome.min.css'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 import hslApi from './http'
 
@@ -17,4 +16,4 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");

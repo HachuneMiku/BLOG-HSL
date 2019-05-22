@@ -5,10 +5,23 @@ let webRouter = new Router();
 const webController = require('../controllers/web.js');
 
 
-
-webRouter.get('/web/index', webController.viewIndex)
-.get('/web/note', webController.viewNote)
-.get('/web/detail', webController.viewDetail)
+/********* 显示页面 *********/
+webRouter.get('/web/index', async(ctx, next) => {
+  ctx.render('web/index');
+})
+.get('/web/note', async(ctx, next) => {
+  ctx.render('web/index');
+})
+.get('/web/note/:page', async(ctx, next) => {
+  ctx.render('web/index');
+})
+.get('/web/detail', async(ctx, next) => {
+  ctx.render('web/index');
+})
+.get('/web/detail/:page', async(ctx, next) => {
+  ctx.render('web/index');
+})
+/********* ↑↑↑↑↑↑↑ *********/
 
 .get('/web/login', webController.viewLogin)
 .get('/web/reg', webController.viewReg)

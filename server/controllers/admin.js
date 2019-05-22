@@ -55,9 +55,6 @@ module.exports = {
     }
   },
 
-  viewIndex: async (ctx, next) => {
-
-  },
 
 
   // 登录

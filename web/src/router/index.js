@@ -15,18 +15,18 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/web/index',
+      path: '/index',
       name: 'Home',
       component: Home
     },
     {
       //动态路由参数，以冒号开头
-      path: '/web/note/:page',
+      path: '/note/:page',
       name: 'Note',
       component: Note
     },
     {
-      path: '/web/detail/:id',
+      path: '/detail/:id',
       name: 'Detail',
       component: Detail
     },

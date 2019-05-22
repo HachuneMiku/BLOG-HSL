@@ -20,10 +20,10 @@
                   <router-link :to="{name:'Note',params:{page:1}}">笔记</router-link>
                 </li>
                 <li class="navigation__item">
-                  <a href="http://localhost:3389/admin/resume" target="_self">简历</a>
+                  <a href="https://www.hsl.wiki/admin/resume" target="_self">简历</a>
                 </li>
                 <li class="navigation__item">
-                  <router-link to="/web/about">关于</router-link>
+                  <router-link to="/about">关于</router-link>
                 </li>
               </ul>
             </nav>

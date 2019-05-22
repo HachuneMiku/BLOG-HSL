@@ -2,7 +2,7 @@
   <div>
 
     <span class="mobile btn-mobile-menu">
-      <router-link to="/web/index" class="go-back-fixed"><i class="fa fa-home"></i></router-link>
+      <router-link to="/index" class="go-back-fixed"><i class="fa fa-home"></i></router-link>
 			<i @click="downMenu" class="fa fa-bars btn-mobile-menu__icon" :class="{'fa-list':this.dropdown, 'fa-angle-up':this.dropdown , 'animated':this.dropdown , 'fadeIn':this.dropdown ,}"></i>
 			<!-- <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i> -->
     </span>
@@ -16,16 +16,16 @@
               <nav class="cover-navigation cover-navigation--primary">
                 <ul class="navigation navigation--btns">
                   <li class="navigation__item">
-                    <router-link to="/web/index">主页</router-link>
+                    <router-link :to="{name:'Home'}">主页</router-link>
                   </li>
                   <li class="navigation__item">
-                    <router-link to="/web/note/1">笔记</router-link>
+                    <router-link :to="{name:'Note',params:{page:1}}">笔记</router-link>
                   </li>
                   <li class="navigation__item">
-                    <a href="http://localhost:3389/admin/resume" target="_self">简历</a>
+                    <a href="https://www.hsl.wiki/admin/resume" target="_self">简历</a>
                   </li>
                   <li class="navigation__item">
-                    <router-link to="/web/about">关于</router-link>
+                    <router-link to="/about">关于</router-link>
                   </li>
                 </ul>
               </nav>
@@ -70,7 +70,7 @@
   			</div>
   			<div class="panel-cover--overlay cover-slate"></div>
   		</div>
-      <router-link to="/web/index" class="go-back">
+      <router-link to="/index" class="go-back">
         <i class="fa fa-home"></i>
       </router-link>
 		</header>

@@ -2,9 +2,9 @@ import axios from 'axios';
 
 
 const hslApi = axios.create({
-  baseURL: 'http://localhost:3389/web/'
+  baseURL: 'https://www.hsl.wiki/web/'
 })
-// http://www.hsl.wiki:3389
+// https://www.hsl.wiki/web/
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
