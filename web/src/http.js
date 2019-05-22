@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const hslApi = axios.create({
-  baseURL: 'http://localhost:3389/admin/'
+  baseURL: 'http://localhost:3389/web/'
 })
 // http://www.hsl.wiki:3389
 

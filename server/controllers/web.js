@@ -1,25 +1,41 @@
 const webModel = require('../models/web');
 const bcrypt = require('bcrypt');  // 密码加密包
 const jwt = require('jsonwebtoken');  //生成token
+const request = require('request');
 
-const markdowner = require('markdown-it');  //解析markdown
+const moment = require('moment');
+moment.locale('zh-cn'); 
+
+//const markdowner = require('markdown-it');  //解析markdown
 const path = require('path');
 const fs = require('fs');
 
 const token_secret = 'hsl_token_secretkey';  //token秘钥
 
+function reqWallpaper(){
+  return new Promise((resolve, reject)=>{
+    request('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1', (error, response, body) => {
+      if(response.statusCode == 200){
+        resolve(body);
+      }else{
+        reject(err);
+      }
+    });
+  }); 
+}
 
-let md = new markdowner({
+/*let md = new markdowner({
   html: true,  // 在源代码中启用HTML标记
   xhtmlOut: true,  //  使用'/'关闭单个标签（<br />）
   linkify: false,  // 自动将URL像文本一样转换为链接
   typographer: false,
-
-})
+})*/
 
 module.exports = {
 
   viewIndex: async(ctx, next) => {
+    ctx.render('web-dist/index');
+    
 
     // 使用将markdown转html
     /*let target = path.join(__dirname, '../test.md');
@@ -46,10 +62,16 @@ module.exports = {
       }
       console.log('1111', decoded);
     });*/
-    
-
+  },
+  viewNote: async(ctx, next) => {
+    ctx.render('web-dist/index');
 
   },
+  viewDetail: async(ctx, next) => {
+    ctx.render('web-dist/index');
+
+  },
+
 
   viewLogin: async(ctx, next) => {
 
@@ -92,7 +114,6 @@ module.exports = {
 		// 3.2 响应json结果
 		ctx.body = { code:'err',msg:'用户名或密码不正确' };
 
-
   },
   // 注册接口
   reg: async(ctx, next) => {
@@ -134,6 +155,54 @@ module.exports = {
   editpwd: async(ctx, next) => {
     
   },
+
+  // 文章分页
+  listarticle: async(ctx, next) => {
+    let {page, number} = ctx.request.body;
+    let res = await webModel.listArticle(page, number);
+    res.items.forEach((e,i)=>{
+      if(e.udate){
+        e.udate = moment(Number(e.udate)).format('YYYY年MM月DD日 HH:mm:ss');
+      }else{
+        e.udate = '无';
+      }
+      e.cdate = moment(Number(e.cdate)).format('YYYY年MM月DD日 HH:mm:ss');
+    })
+
+    ctx.body = res;
+  },
+  // 获取bing壁纸
+  wallpaper: async(ctx, next) => {
+    try{
+      let res = await reqWallpaper();
+      let copyright = JSON.parse(res).images[0].copyright;
+      let imgUrl = 'https://cn.bing.com' + JSON.parse(res).images[0].url;
+      ctx.body = {'copyright':copyright,'imgUrl':imgUrl}
+    }catch(e){
+      ctx.throw('err')
+    }
+  },
+  // 文章详情
+  artdetail: async(ctx, next) => {
+    let { id } = ctx.request.body;
+    let res = await webModel.artDetail(id);
+    if(res.length === 0){
+			ctx.body = {
+				code:'err', msg:'没有该文章'
+			};
+			return;
+    }
+    res[0].cdate = moment(Number(res[0].cdate)).format('YYYY年MM月DD日 HH:mm:ss');
+    if(res[0].udate){
+      res[0].udate = moment(Number(res[0].udate)).format('YYYY年MM月DD日 HH:mm:ss');
+    }else{
+      res[0].udate = '无';
+    }
+    ctx.body = {code:'yes', data: res};
+  },
+
+
+
 
 
 }

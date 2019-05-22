@@ -8,7 +8,7 @@ adminRouter.get('/admin/index', adminController.viewIndex)
 
 //个人简历
 .get('/admin/resume', (ctx, next) => {
-  ctx.render('index');
+  ctx.render('resume/index');
 })
 
 // 后台登录

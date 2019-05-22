@@ -59,8 +59,6 @@ module.exports = {
 
   },
 
-  
-
 
   // 登录
   login: async (ctx, next) => {

@@ -124,7 +124,8 @@ a {
 .content-hd {
   padding: 30px 50px;
   color: #fff;
-  background-color: #00b38a;
+  /* background-color: #00b38a; */
+	background-color:#2d8cf0;
   overflow: hidden;
 }
 @media screen and (max-width: 720px) {
@@ -136,7 +137,8 @@ a {
 .content-hd .title {
   padding-bottom: 5px;
   margin-bottom: 5px;
-  border-bottom: 2px solid #00a982;
+  /* border-bottom: 2px solid #00a982; */
+	border-bottom:2px solid #5cadff;
   font-size: 52px;
   font-weight: 300;
   overflow: hidden;
@@ -349,7 +351,7 @@ a {
   overflow: hidden;
 }
 .content-bd .item-hd .iconfont {
-  color: #00b38a;
+  color: #2d8cf0;
 }
 .content-bd .item-hd .item-time {
   float: left;
@@ -389,7 +391,7 @@ a {
   word-break: break-all;
 }
 .content-bd .section-content .iconfont {
-  color: #00b38a;
+  color: #2d8cf0;
 }
 .content-bd .section-content em {
   display: inline-block;
@@ -414,6 +416,12 @@ a {
   padding: 0 3px;
   background-color: #f6f6f6;
 }
+.content-bd .section-content strong a{
+	color: #2d8cf0;
+}
+.content-bd .section-content strong a:hover{
+	color: #5cadff;
+}
 .content-bd .skill .section-content {
   margin-bottom: 5px;
   line-height: 24px;
@@ -431,14 +439,18 @@ a {
 	}
 
 }
-.content-bd .prize .item-hd {
+.content-bd .evaluate .item-hd {
   padding: 12px 0 0;
 }
-.content-bd .prize .item-time {
+.content-bd .evaluate .section-content {
+  margin-bottom: 5px;
+	line-height: 24px;
+}
+.content-bd .evaluate .item-time {
   width: 15%;
 }
 @media screen and (max-width: 720px) {
-  .content-bd .prize .item-time {
+  .content-bd .evaluate .item-time {
 		width: 100%;
 	}
 
@@ -446,17 +458,17 @@ a {
 .btn {
   display: inline-block;
   padding: 0 5px;
-  border: 1px solid #00b38a;
+  border: 1px solid #2d8cf0;
   border-radius: 3px;
   font-family: Menlo, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-size: 14px;
   line-height: 18px;
   text-align: center;
-  color: #00b38a;
+  color: #2d8cf0;
 }
 .btn:hover {
   color: #fff;
-  background-color: #00b38a;
+  background-color: #2d8cf0;
 }
 .pdf {
   display: inline-block;
@@ -470,7 +482,7 @@ a {
   font-size: 16px;
   line-height: 26px;
   color: #fff;
-  background-color: #00b38a;
+  background-color: #2d8cf0;
 }
 @media screen and (max-width: 1246px) {
   .pdf {
@@ -483,12 +495,12 @@ a {
 footer {
   text-align: center;
 }
-footer.github-footer {
+/* footer.github-footer {
   display: block;
-}
-footer.print-footer {
+} */
+/* footer.print-footer {
   display: none;
-}
+} */
 footer .footer-link {
   display: inline-block;
   margin-top: 10px;

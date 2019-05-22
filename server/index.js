@@ -13,8 +13,8 @@ let app = new koa();
 
 
 // 开启服务器
-app.listen(3000, ()=>{
-  console.log('服务器启动在3000端口');
+app.listen(3389, ()=>{
+  console.log('服务器启动在3389端口');
 });
 // 设置允许跨域
 app.use(async (ctx, next) => {
@@ -66,7 +66,7 @@ const render = require('koa-art-template');
 render(app,{
   // 开发的配置 debug: true 
 	debug: process.env.NODE_ENV !== 'production',
-	root: path.join(__dirname, './static/resume'),
+	root: path.join(__dirname, './static/'),
 	extname: '.html'
 })
 

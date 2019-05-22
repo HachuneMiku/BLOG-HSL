@@ -1,44 +1,93 @@
 <template>
-  <div class="header">
-    <div class="menu-btn">
-      <div class="menu"></div>
-    </div>
-    <h1 class="logo">
-      <router-link to="/">
-        <span>MYBLOG</span>
-        <img src="../assets/img/logo.png">
+  <div>
+
+    <span class="mobile btn-mobile-menu">
+      <router-link to="/web/index" class="go-back-fixed"><i class="fa fa-home"></i></router-link>
+			<i @click="downMenu" class="fa fa-bars btn-mobile-menu__icon" :class="{'fa-list':this.dropdown, 'fa-angle-up':this.dropdown , 'animated':this.dropdown , 'fadeIn':this.dropdown ,}"></i>
+			<!-- <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i> -->
+    </span>
+    <header class="panel-cover panel-cover--collapsed" v-bind:style="{backgroundImage:'url(' + bingImg.imgUrl + ')'}">
+      <div class="panel-main">
+  			<div class="panel-main__inner panel-inverted">
+          <div class="panel-main__content">
+            <!-- <a href="javascript:;" title="首屏" class="index-button" target="_blank"><img src="" class="panel-cover__logo iUp up">
+            </a> -->
+            <div class="navigation-wrapper iUp " :class="{'up':this.show, 'visible':this.dropdown, 'animated':this.dropdown, 'bounceInDown':this.dropdown}">
+              <nav class="cover-navigation cover-navigation--primary">
+                <ul class="navigation navigation--btns">
+                  <li class="navigation__item">
+                    <router-link to="/web/index">主页</router-link>
+                  </li>
+                  <li class="navigation__item">
+                    <router-link to="/web/note/1">笔记</router-link>
+                  </li>
+                  <li class="navigation__item">
+                    <a href="http://localhost:3389/admin/resume" target="_self">简历</a>
+                  </li>
+                  <li class="navigation__item">
+                    <router-link to="/web/about">关于</router-link>
+                  </li>
+                </ul>
+              </nav>
+              <!-- <div class="iUp up">
+                <nav class="cover-navigation navigation--social">
+                  <ul class="navigation">
+                		<li class="navigation__item">
+                			<a href="" title="Github" target="_blank">
+                				<i class="social iconfont"></i>
+                				<span class="label">Github</span>
+                			</a>
+                		</li>
+                		<li class="navigation__item">
+                			<a href="" title="微信" target="_blank">
+                				<i class="social iconfont"></i>
+                				<span class="label">Wechat</span>
+                			</a>
+                		</li>
+                		<li class="navigation__item">
+                			<a href="" title="QQ" target="_blank">
+                				<i class="social iconfont"></i>
+                				<span class="label">QQ</span>
+                			</a>
+                		</li>
+                		<li class="navigation__item">
+                			<a href="" title="邮箱" target="_blank">
+                				<i class="social iconfont"></i>
+                				<span class="label">Email</span>
+                			</a>
+                		</li>
+                		<li class="navigation__item">
+                			<a href="" title="知乎" target="_blank">
+                				<i class="social iconfont"></i>
+                				<span class="label">Zhihu</span>
+                			</a>
+                		</li>
+                  </ul>
+                </nav>
+              </div> -->
+            </div>
+          </div>
+  			</div>
+  			<div class="panel-cover--overlay cover-slate"></div>
+  		</div>
+      <router-link to="/web/index" class="go-back">
+        <i class="fa fa-home"></i>
       </router-link>
-    </h1>
-    <div class="nav">
-      <router-link to="/web/index">文章</router-link>
-      <router-link to="/web/whisper">微语</router-link>
-      <router-link to="/web/leacots">留言</router-link>
-      <router-link to="/web/album">相册</router-link>
-      <router-link to="/web/about">关于</router-link>
-    </div>
-    <ul class="layui-nav header-down-nav">
-      <li class="layui-nav-item"><router-link to="/web/index">文章</router-link></li>
-      <li class="layui-nav-item"><router-link to="/web/whisper">微语</router-link></li>
-      <li class="layui-nav-item"><router-link to="/web/leacots">留言</router-link></li>
-      <li class="layui-nav-item"><router-link to="/web/album">相册</router-link></li>
-      <li class="layui-nav-item"><router-link to="/web/about">关于</router-link></li>
-    </ul>
-    <p class="welcome-text">
-      欢迎来到<span class="name">HSL</span>的博客~
-    </p>
+		</header>
+  
   </div>
 </template>
-
 <script>
-  export default {
-    name: 'TheHeader',
-    components: {
-      
-    }
+export default {
+  name: 'Header',
+  props: ['bingImg','show','dropdown'],
+  methods:{
+    downMenu(){
+      this.dropdown = !this.dropdown;
+    },
   }
+}
 </script>
-<!-- 添加“scoped”属性以仅将CSS限制到此组件 -->
-<style scoped>
-  
-</style>
+<style>
 
+</style>

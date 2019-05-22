@@ -2,12 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 
-const Home = () => import('@/components/Home')
-const Whisper = () => import('@/components/Whisper')
-const Leacots = () => import('@/components/Leacots')
-const Album = () => import('@/components/Album')
-const About = () => import('@/components/About')
-const Detail= () => import('@/components/Detail')
+const Home = () => import('@/views/Home')
+const Note = () => import('@/views/Note')
+const Detail = () => import('@/views/Detail')
+
 
 
 Vue.use(Router)
@@ -22,30 +20,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '/web/detail',
+      //动态路由参数，以冒号开头
+      path: '/web/note/:page',
+      name: 'Note',
+      component: Note
+    },
+    {
+      path: '/web/detail/:id',
       name: 'Detail',
       component: Detail
     },
-    {
-      path: '/web/whisper',
-      name: 'Whisper',
-      component: Whisper
-    },
-    {
-      path: '/web/leacots',
-      name: 'Leacots',
-      component: Leacots
-    },
-    {
-      path: '/web/album',
-      name: 'Album',
-      component: Album
-    },
-    {
-      path: '/web/about',
-      name: 'About',
-      component: About
-    }
+    
     
   ]
 })

@@ -1,32 +1,14 @@
 <template>
-  <div class="footer-wrap">
-    <div class="footer w1000">
-      <div class="qrcode">
-        <img src="../assets/img/erweima.jpg">
-      </div>
-      <div class="practice-mode">
-        <img src="../assets/img/down_img.jpg">
-        <div class="text">
-          <h4 class="title">我的联系方式</h4>
-          <p>微信<span class="WeChat">1234567890</span></p>
-          <p>手机<span class="iphone">1234567890</span></p>
-          <p>邮箱<span class="email">1234567890@qq.com</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <footer class="footer">
+    <span class="footer__copyright">© 2019 All rights reserved.</span>
+    <span class="footer__copyright">@ HSL</span>
+  </footer>
 </template>
-
 <script>
-  export default {
-    name: 'TheFooter',
-    components: {
-      
-    }
-  }
+export default {
+  name: 'Footer',
+}
 </script>
+<style>
 
-<style scoped>
-  
 </style>
-
