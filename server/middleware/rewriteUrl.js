@@ -19,7 +19,9 @@ module.exports = () => {
       ctx.url = ctx.url.replace('/admin', '');
       ctx.type = 'text/css';
     }
-
+    if(ctx.url.startsWith('/resume/resume.pdf')){
+      ctx.type = 'application/pdf';
+    }
     
     //处理首页
     if(ctx.url === '/'){
