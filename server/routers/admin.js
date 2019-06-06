@@ -9,7 +9,7 @@ adminRouter.get('/admin/index', async (ctx, next) => {
   ctx.render('admin/index');
 })
 //个人简历
-.get('/admin/resume', (ctx, next) => {
+/*.get('/admin/resume', (ctx, next) => {
   ctx.render('resume/index');
 })
 /********* ↑↑↑↑↑↑↑ *********/

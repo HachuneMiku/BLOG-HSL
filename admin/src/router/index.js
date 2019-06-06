@@ -10,7 +10,7 @@ const ArticleList = () => import('@/views/ArticleList');
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/login',
@@ -36,3 +36,15 @@ export default new Router({
     
   ]
 })
+
+// 路由守卫
+router.beforeEach((to, from ,next)=>{
+  const isLogin = localStorage.hslToken ? true : false;
+  if(to.path == '/login'){
+    next();
+  }else{
+    isLogin ? next() : next('/login');
+  }
+})
+
+export default router;

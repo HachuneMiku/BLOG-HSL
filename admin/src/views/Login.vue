@@ -27,8 +27,22 @@
       LoginForm
     },
     methods: {
-      handleSubmit({ userName, password }){
-        console.log(userName, password)
+      async handleSubmit({ userName, password }){
+        let that = this;
+        let res = await that.$hslApi.post('/login', {'username':userName, 'password':password});
+        console.log(res);
+        if(res.data.code == 'yes'){
+          //存储到ls
+          localStorage.setItem('hslToken', res.data.token);
+          that.$Message.success({
+            content:res.data.msg,
+            onClose(){
+              that.$router.push('/home');
+            }
+          });
+        }else{
+          this.$Message.error(res.data.msg);
+        }
       }
     },
     async created(){

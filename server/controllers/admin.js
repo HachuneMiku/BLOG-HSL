@@ -42,6 +42,18 @@ function reqWallpaper(){
   }); 
 }
 
+/** 验证token是否正确 **/
+function Vertoken(tokenRaw){
+  return new Promise((resolve, reject)=>{
+    jwt.verify(tokenRaw, token_secret, function(err, decoded){
+      if(err || !decoded){
+        resolve({code:'err'}); 
+      }
+      reject(decoded);
+    });
+  })
+} 
+
 module.exports = {
   // 获取bing壁纸
   wallpaper: async(ctx, next) => {
@@ -75,7 +87,8 @@ module.exports = {
     let isPassword = bcrypt.compareSync(password, user.password);
     if(isPassword){
       let token = jwt.sign({
-        uid: user.uid
+        id: user.id,
+        username: user.username
       }, token_secret, { expiresIn: 3600 })
 
 			// 如果密码正确，认证用户，生成token返回
@@ -105,7 +118,7 @@ module.exports = {
       let cdate = Date.now();
       password = bcrypt.hashSync(password, 10);
 			let result = await adminModel.regUser(username, password, cdate);
-			console.log('111', result);
+			
 			if(result.affectedRows === 1){
 				ctx.body = { code: 'yes', msg: '注册成功' };
 				return;
@@ -125,10 +138,20 @@ module.exports = {
   editarticle: async (ctx, next) => {
     let {type, title, classify, contenturl, id} = ctx.request.body;
 
+    /** 获取token判断 **/
+    let tokenRaw = ctx.header.authorization
+    let tokenRes = await Vertoken(tokenRaw);
+    if(tokenRes.code == 'err'){
+      ctx.status = 401;
+      return;
+    }
+    /** ↑↑↑↑↑ **/
+
     switch (type) {
       case "add":
         // 以后再加token
-        let aid = 1, editor = 'HSL';
+
+        let aid = tokenRes.id, editor = tokenRes.username;
 
         let tempUrl = '/uploadFiles/temp/' + path.parse(contenturl).base;
         
@@ -152,8 +175,6 @@ module.exports = {
           ctx.throw('err')
         }
         
-
-
         break;
       case "edit":
         
@@ -172,18 +193,6 @@ module.exports = {
           }
         break;
     }
-
-    
-    // 获得前台传递的token
-    /*let tokenRaw = String(ctx.header.authorization).split(' ').pop();
-    jwt.verify(tokenRaw, token_secret, function(err, decoded){
-      if(err || !decoded){
-        ctx.body = {
-          code:'err', msg:'token出错'
-        };
-      }
-      console.log('1111', decoded);
-    });*/
 
   },
 
@@ -214,10 +223,18 @@ module.exports = {
   editarticletype: async (ctx, next) => {
     let { type, category, id } = ctx.request.body;
     
+    /** 获取token判断 **/
+    let tokenRaw = ctx.header.authorization
+    let tokenRes = await Vertoken(tokenRaw);
+    if(tokenRes.code == 'err'){
+      ctx.status = 401;
+      return;
+    }
+    /** ↑↑↑↑↑ **/
+
     switch (type) {
       case "add":
-          console.log(type, category, id);
-
+          
           //判断是否存在该分类
           let types = await adminModel.findTypeByTypename(category);
           //判断是否可以注册
@@ -239,7 +256,6 @@ module.exports = {
           }catch(e){
             ctx.throw('err')
           }
-
 
         break;
       case "edit":
@@ -271,7 +287,6 @@ module.exports = {
         
         break;
     }
-
 
 
   },
